@@ -77,7 +77,7 @@ int main() {
     Shader platform2Shader("resources/shaders/platform2.vs", "resources/shaders/platform2.fs");
     Shader wall1Shader("resources/shaders/wall1.vs", "resources/shaders/wall1.fs" );
     Shader wall2Shader("resources/shaders/wall2.vs", "resources/shaders/wall2.fs" );
-
+    Shader stairsShader("resources/shaders/stairs.vs", "resources/shaders/stairs.fs");
 
     // basic cube vertices - to be used for drawing platforms
     float platformVertices[] = {
@@ -131,45 +131,45 @@ int main() {
             // positions                // normals              //texture coords
             // back face (CCW winding)
             0.5f, -0.5f, -0.5f, 0.0f,  0.0f, -1.0f,  0.0f, 0.0f, // bottom-left
-            -0.5f, -0.5f, -0.5f, 0.0f,  0.0f, -1.0f, 2.0f, 0.0f, // bottom-right
-            -0.5f,  0.5f, -0.5f, 0.0f,  0.0f, -1.0f, 2.0f, 2.0f, // top-right
-            -0.5f,  0.5f, -0.5f, 0.0f,  0.0f, -1.0f, 2.0f, 2.0f, // top-right
-            0.5f,  0.5f, -0.5f, 0.0f,  0.0f, -1.0f, 0.0f, 2.0f, // top-left
+            -0.5f, -0.5f, -0.5f, 0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right
+            -0.5f,  0.5f, -0.5f, 0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+            -0.5f,  0.5f, -0.5f, 0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+            0.5f,  0.5f, -0.5f, 0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
             0.5f, -0.5f, -0.5f, 0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
             // front face (CCW winding)
             -0.5f, -0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  0.0f, 0.0f, // bottom-left
-            0.5f, -0.5f,  0.5f, 0.0f,  0.0f,  1.0f, 2.0f, 0.0f, // bottom-right
-            0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f, 2.0f, 2.0f, // top-right
-            0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f, 2.0f, 2.0f, // top-right
-            -0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f, 0.0f, 2.0f, // top-left
+            0.5f, -0.5f,  0.5f, 0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
+            0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+            0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+            -0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f, 0.0f, 1.0f, // top-left
             -0.5f, -0.5f,  0.5f, 0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
             // left face (CCW)
             -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left
-            -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 2.0f, 0.0f, // bottom-right
-            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 2.0f, 2.0f, // top-right
-            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 2.0f, 2.0f, // top-right
-            -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 2.0f, // top-left
+            -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right
+            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right
+            -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // top-left
             -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left
             // right face (CCW)
             0.5f, -0.5f,  0.5f, 1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left
-            0.5f, -0.5f, -0.5f, 1.0f,  0.0f,  0.0f, 2.0f, 0.0f, // bottom-right
-            0.5f,  0.5f, -0.5f, 1.0f,  0.0f,  0.0f, 2.0f, 2.0f, // top-right
-            0.5f,  0.5f, -0.5f, 1.0f,  0.0f,  0.0f, 2.0f, 2.0f, // top-right
-            0.5f,  0.5f,  0.5f, 1.0f,  0.0f,  0.0f, 0.0f, 2.0f, // top-left
+            0.5f, -0.5f, -0.5f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+            0.5f,  0.5f, -0.5f, 1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right
+            0.5f,  0.5f, -0.5f, 1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right
+            0.5f,  0.5f,  0.5f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // top-left
             0.5f, -0.5f,  0.5f, 1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left
             // bottom face (CCW)
             -0.5f, -0.5f, -0.5f, 0.0f, -1.0f,  0.0f, 0.0f, 0.0f, // bottom-left
-            0.5f, -0.5f, -0.5f, 0.0f, -1.0f,  0.0f, 2.0f, 0.0f, // bottom-right
-            0.5f, -0.5f,  0.5f, 0.0f, -1.0f,  0.0f, 2.0f, 2.0f, // top-right
-            0.5f, -0.5f,  0.5f, 0.0f, -1.0f,  0.0f, 2.0f, 2.0f, // top-right
-            -0.5f, -0.5f,  0.5f, 0.0f, -1.0f,  0.0f, 0.0f, 2.0f, // top-left
+            0.5f, -0.5f, -0.5f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+            0.5f, -0.5f,  0.5f, 0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-right
+            0.5f, -0.5f,  0.5f, 0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-right
+            -0.5f, -0.5f,  0.5f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-left
             -0.5f, -0.5f, -0.5f, 0.0f, -1.0f,  0.0f, 0.0f, 0.0f, // bottom-left
             // top face (CCW)
             -0.5f,  0.5f,  0.5f, 0.0f,  1.0f,  0.0f, 0.0f, 0.0f, // bottom-left
-            0.5f,  0.5f,  0.5f, 0.0f,  1.0f,  0.0f, 2.0f, 0.0f, // bottom-right
-            0.5f,  0.5f, -0.5f, 0.0f,  1.0f,  0.0f, 2.0f, 2.0f, // top-right
-            0.5f,  0.5f, -0.5f, 0.0f,  1.0f,  0.0f, 2.0f, 2.0f, // top-right
-            -0.5f,  0.5f, -0.5f, 0.0f,  1.0f,  0.0f, 0.0f, 2.0f, // top-left
+            0.5f,  0.5f,  0.5f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+            0.5f,  0.5f, -0.5f, 0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right
+            0.5f,  0.5f, -0.5f, 0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right
+            -0.5f,  0.5f, -0.5f, 0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
             -0.5f,  0.5f,  0.5f, 0.0f,  1.0f,  0.0f, 0.0f, 0.0f, // bottom-left
     };
 
@@ -185,6 +185,14 @@ int main() {
             glm::vec3( -5.425f, 1.625f, -1.2f),
             glm::vec3( 2.5f, 1.125f, -2.025f),
             glm::vec3( 3.925f, 1.125f, 0.05f)
+    };
+
+    // stairs - position and angle for every step
+    vector<pair<glm::vec3, float>> stairs = {
+            {glm::vec3( -0.3f,  0.5f,  2.0f), 0.0f},
+            {glm::vec3( -0.05f, 0.4f, 1.95f), 10.f},
+            {glm::vec3( 0.2f,  0.3f,  1.9f), 20.f},
+            {glm::vec3( 0.45f, 0.2f, 1.8f), 30.f}
     };
 
     unsigned int platformVBO, platformVAO;
@@ -226,7 +234,8 @@ int main() {
     unsigned int specularMapWall1 = loadTexture("resources/textures/BricksReclaimedWhitewashedOffset_specular.png");
     unsigned int diffuseMapWall2 = loadTexture("resources/textures/StuccoRoughCast2_diffuse.png");
     unsigned int specularMapWall2 = loadTexture("resources/textures/StuccoRoughCast_specular.png");
-
+    unsigned int diffuseMapGlass = loadTexture("resources/textures/glass1_diffuse.png");
+    unsigned int specularMapGlass = loadTexture("resources/textures/glass1_specular.png");
 
 
     // shader configuration
@@ -246,6 +255,11 @@ int main() {
     wall2Shader.setInt("material.diffuse", 6);
     wall2Shader.setInt("material.specular", 7);
 
+    stairsShader.use();
+    stairsShader.setInt("material.diffuse", 8);
+    stairsShader.setInt("material.specular", 9);
+
+
     // directional light settings
     glm::vec3 direction = glm::vec3(0.0f, -4.0f, -5.0f);
     glm::vec3 dirLightAmbient = glm::vec3(0.05f, 0.05f, 0.05f);
@@ -254,6 +268,10 @@ int main() {
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // enabling blending to achieve transparency
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // render loop
     while (!glfwWindowShouldClose(window)) {
@@ -439,6 +457,51 @@ int main() {
 
         // I don't want face culling for anything other than platforms and walls
         glDisable(GL_CULL_FACE);
+
+        // =========================================== draw glass stairs =========================================
+        // using wallVBO & wallVAO
+
+        // bind diffuse map
+        glActiveTexture(GL_TEXTURE8);
+        glBindTexture(GL_TEXTURE_2D, diffuseMapGlass);
+        // bind specular map
+        glActiveTexture(GL_TEXTURE9);
+        glBindTexture(GL_TEXTURE_2D, specularMapGlass);
+
+        stairsShader.use();
+
+        stairsShader.setVec3("viewPos", camera.Position);
+        stairsShader.setFloat("material.shininess", 32.0f);
+
+        // directional light
+        stairsShader.setVec3("dirLight.direction", direction);
+        stairsShader.setVec3("dirLight.ambient", dirLightAmbient);
+        stairsShader.setVec3("dirLight.diffuse", dirLightDiffuse);
+        stairsShader.setVec3("dirLight.specular", dirLightSpecular);
+
+        // view/projection transformations
+        stairsShader.setMat4("projection", projection);
+        stairsShader.setMat4("view", view);
+
+        // steps need to be sorted because of their transparency - if rendered differently
+        // some steps may not be visible through the other ones
+        std::sort(stairs.begin(), stairs.end(),
+                  [cameraPosition = camera.Position](const pair<glm::vec3, float>& a, const pair<glm::vec3, float>& b) {
+                      float d1 = glm::distance(a.first, cameraPosition);
+                      float d2 = glm::distance(b.first, cameraPosition);
+                      return d1 > d2;
+        });
+
+        for (const pair<glm::vec3, float>& step : stairs) {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, step.first);
+            model = glm::rotate(model, glm::radians(step.second), glm::vec3(0.0f, 1.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(0.25f, 0.05f, 0.75f));
+            stairsShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        // =========================================== glass stairs drawn =========================================
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
