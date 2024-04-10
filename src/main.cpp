@@ -272,6 +272,14 @@ int main() {
     coffeeTableModel.SetShaderTextureNamePrefix("material.");
     Model rugRoundPatternModel("resources/objects/RugRoundPattern/RugRoundPattern.obj");
     rugRoundPatternModel.SetShaderTextureNamePrefix("material.");
+    Model paintingModel("resources/objects/AbstractArt/AbstractArt.obj");
+    paintingModel.SetShaderTextureNamePrefix("material.");
+    Model rugRoundBluishModel("resources/objects/RugRoundBluish/RugRoundBluish.obj");
+    rugRoundBluishModel.SetShaderTextureNamePrefix("material.");
+    Model plantAgaveModel("resources/objects/PlantAgave/PlantAgave.obj");
+    plantAgaveModel.SetShaderTextureNamePrefix("material.");
+    Model trayModel("resources/objects/TrayRound/TrayRound.obj");
+    trayModel.SetShaderTextureNamePrefix("material.");
 
     // shader configuration
     platform1Shader.use();
@@ -595,14 +603,41 @@ int main() {
         modelShader.setMat4("model", model);
         coffeeTableModel.Draw(modelShader);
 
-        // ------------------------------------------- rugRoundPatternModel -------------------------------------------
+        // ------------------------------------------- rugRoundPatternModel ---------------------------------------
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-3.65f,  0.58f,  -0.6f));
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
         modelShader.setMat4("model", model);
         rugRoundPatternModel.Draw(modelShader);
 
+        // ------------------------------------------- paintingModel ---------------------------------------
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(3.85f,  1.2f,  -0.6f));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        modelShader.setMat4("model", model);
+        paintingModel.Draw(modelShader);
 
+        // ------------------------------------------- rugRoundBluishModel ---------------------------------------
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(2.9f,  0.085f,  -0.9f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        modelShader.setMat4("model", model);
+        rugRoundBluishModel.Draw(modelShader);
+
+        // ------------------------------------------- plantAgaveModel ---------------------------------------
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(3.5f,  0.085f,  -1.6f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        modelShader.setMat4("model", model);
+        plantAgaveModel.Draw(modelShader);
+
+        // ------------------------------------------- trayModel ---------------------------------------
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-4.2f,  0.937f,  -1.75f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        modelShader.setMat4("model", model);
+        trayModel.Draw(modelShader);
 
 
         // ============================================ models drawn ==============================================

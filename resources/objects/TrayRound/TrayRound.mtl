@@ -1,0 +1,16 @@
+# Blender 4.1.0 MTL File: 'TrayRoundRattan002_Blender_Cycles.blend'
+# www.blender.org
+
+newmtl TrayRoundRattan002_4K
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd TrayRoundRattan002_COL_4K_METALNESS.png
+map_Ks TrayRoundRattan002_ROUGHNESS_4K_METALNESS.png
+map_Pm TrayRoundRattan002_METALNESS_4K_METALNESS.png
+map_Bump -bm 1.000000 TrayRoundRattan002_NRM_4K_METALNESS.png

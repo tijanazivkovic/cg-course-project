@@ -1,0 +1,24 @@
+# Blender 4.1.0 MTL File: 'Abstract-Art_Pointalist-1.blend'
+# www.blender.org
+
+newmtl BACK
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.776471 0.776471 0.776471
+Ks 0.330000 0.330000 0.330000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd plainwhite.png
+
+newmtl Pointalist_Study_1
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.330000 0.330000 0.330000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Pointalist_Study_1.jpg
+map_Ks Pointalist_Study_1_spec.jpg
