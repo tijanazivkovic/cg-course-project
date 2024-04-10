@@ -22,6 +22,7 @@ unsigned int loadTexture(const char *path);
 // settings
 const unsigned int SCR_WIDTH = 1200;
 const unsigned int SCR_HEIGHT = 800;
+const unsigned int NUM_LIGHT_CUBES = 2;
 
 // camera
 Camera camera(glm::vec3(0.0f, 1.0f, 6.0f));
@@ -78,6 +79,7 @@ int main() {
     Shader wall1Shader("resources/shaders/wall1.vs", "resources/shaders/wall1.fs" );
     Shader wall2Shader("resources/shaders/wall2.vs", "resources/shaders/wall2.fs" );
     Shader stairsShader("resources/shaders/stairs.vs", "resources/shaders/stairs.fs");
+    Shader lightCubeShader("resources/shaders/lightCube.vs", "resources/shaders/lightCube.fs");
 
     // basic cube vertices - to be used for drawing platforms
     float platformVertices[] = {
@@ -126,7 +128,7 @@ int main() {
             -0.5f,  0.5f,  0.5f, 0.0f,  1.0f,  0.0f, 0.0f, 0.0f, // bottom-left
     };
 
-    // basic cube vertices - to be used for drawing platforms
+    // basic cube vertices - to be used for drawing walls and light cubes
     float wallVertices[] = {
             // positions                // normals              //texture coords
             // back face (CCW winding)
@@ -195,6 +197,12 @@ int main() {
             {glm::vec3( 0.45f, 0.2f, 1.8f), 30.f}
     };
 
+    // point light positions - light cubes
+    glm::vec3 pointLightPositions[] = {
+            glm::vec3( -0.2f,  0.6f,  2.6f),
+            glm::vec3( 0.0f, 0.5f, 1.3f)
+    };
+
     unsigned int platformVBO, platformVAO;
     glGenVertexArrays(1, &platformVAO);
     glGenBuffers(1, &platformVBO);
@@ -224,6 +232,15 @@ int main() {
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
+
+    // light cube VAO
+    unsigned int lightCubeVAO;
+    glGenVertexArrays(1, &lightCubeVAO);
+    glBindVertexArray(lightCubeVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, wallVBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 
     // load textures - using a utility function to keep the code more organized
     unsigned int diffuseMapPlatform1 = loadTexture("resources/textures/WoodFlooringAshSuperWhite_diffuse.jpg");
@@ -265,6 +282,15 @@ int main() {
     glm::vec3 dirLightAmbient = glm::vec3(0.05f, 0.05f, 0.05f);
     glm::vec3 dirLightDiffuse = glm::vec3(0.4f, 0.4f, 0.4f);
     glm::vec3 dirLightSpecular = glm::vec3(0.5f, 0.5f, 0.5f);
+
+    // point lights settings
+    glm::vec3 pointLightAmbient = glm::vec3(0.05f, 0.05f, 0.05f);
+    glm::vec3 pointLightDiffuse = glm::vec3(0.8f, 0.8f, 0.8f);
+    glm::vec3 pointLightSpecular = glm::vec3(1.0f, 1.0f, 1.0f);
+    float pointLightConstant = 1.0f;
+    float pointLightLinear = 0.09f;
+    float pointLightQuadratic = 0.032f;
+
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -328,6 +354,25 @@ int main() {
         platform1Shader.setVec3("dirLight.diffuse", dirLightDiffuse);
         platform1Shader.setVec3("dirLight.specular", dirLightSpecular);
 
+        // point light 1
+        platform1Shader.setVec3("pointLights[0].position",
+                                pointLightPositions[0] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime()), 0.0f));
+        platform1Shader.setVec3("pointLights[0].ambient", pointLightAmbient);
+        platform1Shader.setVec3("pointLights[0].diffuse", pointLightDiffuse);
+        platform1Shader.setVec3("pointLights[0].specular", pointLightSpecular);
+        platform1Shader.setFloat("pointLights[0].constant", pointLightConstant);
+        platform1Shader.setFloat("pointLights[0].linear", pointLightLinear);
+        platform1Shader.setFloat("pointLights[0].quadratic", pointLightQuadratic);
+        // point light 2
+        platform1Shader.setVec3("pointLights[1].position",
+                                pointLightPositions[1] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime() + 1), 0.0f));
+        platform1Shader.setVec3("pointLights[1].ambient", pointLightAmbient);
+        platform1Shader.setVec3("pointLights[1].diffuse", pointLightDiffuse);
+        platform1Shader.setVec3("pointLights[1].specular", pointLightSpecular);
+        platform1Shader.setFloat("pointLights[1].constant", pointLightConstant);
+        platform1Shader.setFloat("pointLights[1].linear", pointLightLinear);
+        platform1Shader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
+
         // view/projection transformations
         platform1Shader.setMat4("projection", projection);
         platform1Shader.setMat4("view", view);
@@ -351,6 +396,25 @@ int main() {
         platform2Shader.setVec3("dirLight.ambient", dirLightAmbient);
         platform2Shader.setVec3("dirLight.diffuse", dirLightDiffuse);
         platform2Shader.setVec3("dirLight.specular", dirLightSpecular);
+
+        // point light 1
+        platform2Shader.setVec3("pointLights[0].position",
+                                pointLightPositions[0] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime()), 0.0f));
+        platform2Shader.setVec3("pointLights[0].ambient", pointLightAmbient);
+        platform2Shader.setVec3("pointLights[0].diffuse", pointLightDiffuse);
+        platform2Shader.setVec3("pointLights[0].specular", pointLightSpecular);
+        platform2Shader.setFloat("pointLights[0].constant", pointLightConstant);
+        platform2Shader.setFloat("pointLights[0].linear", pointLightLinear);
+        platform2Shader.setFloat("pointLights[0].quadratic", pointLightQuadratic);
+        // point light 2
+        platform2Shader.setVec3("pointLights[1].position",
+                                pointLightPositions[1] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime() + 1), 0.0f));
+        platform2Shader.setVec3("pointLights[1].ambient", pointLightAmbient);
+        platform2Shader.setVec3("pointLights[1].diffuse", pointLightDiffuse);
+        platform2Shader.setVec3("pointLights[1].specular", pointLightSpecular);
+        platform2Shader.setFloat("pointLights[1].constant", pointLightConstant);
+        platform2Shader.setFloat("pointLights[1].linear", pointLightLinear);
+        platform2Shader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
 
         // view/projection transformations
         platform2Shader.setMat4("projection", projection);
@@ -395,6 +459,25 @@ int main() {
         wall1Shader.setVec3("dirLight.diffuse", dirLightDiffuse);
         wall1Shader.setVec3("dirLight.specular", dirLightSpecular);
 
+        // point light 1
+        wall1Shader.setVec3("pointLights[0].position",
+                            pointLightPositions[0] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime()), 0.0f));
+        wall1Shader.setVec3("pointLights[0].ambient", pointLightAmbient);
+        wall1Shader.setVec3("pointLights[0].diffuse", pointLightDiffuse);
+        wall1Shader.setVec3("pointLights[0].specular", pointLightSpecular);
+        wall1Shader.setFloat("pointLights[0].constant", pointLightConstant);
+        wall1Shader.setFloat("pointLights[0].linear", pointLightLinear);
+        wall1Shader.setFloat("pointLights[0].quadratic", pointLightQuadratic);
+        // point light 2
+        wall1Shader.setVec3("pointLights[1].position",
+                            pointLightPositions[1] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime() + 1), 0.0f));
+        wall1Shader.setVec3("pointLights[1].ambient", pointLightAmbient);
+        wall1Shader.setVec3("pointLights[1].diffuse", pointLightDiffuse);
+        wall1Shader.setVec3("pointLights[1].specular", pointLightSpecular);
+        wall1Shader.setFloat("pointLights[1].constant", pointLightConstant);
+        wall1Shader.setFloat("pointLights[1].linear", pointLightLinear);
+        wall1Shader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
+
         // view/projection transformations
         wall1Shader.setMat4("projection", projection);
         wall1Shader.setMat4("view", view);
@@ -429,6 +512,25 @@ int main() {
         wall2Shader.setVec3("dirLight.ambient", dirLightAmbient);
         wall2Shader.setVec3("dirLight.diffuse", dirLightDiffuse);
         wall2Shader.setVec3("dirLight.specular", dirLightSpecular);
+
+        // point light 1
+        wall2Shader.setVec3("pointLights[0].position",
+                            pointLightPositions[0] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime()), 0.0f));
+        wall2Shader.setVec3("pointLights[0].ambient", pointLightAmbient);
+        wall2Shader.setVec3("pointLights[0].diffuse", pointLightDiffuse);
+        wall2Shader.setVec3("pointLights[0].specular", pointLightSpecular);
+        wall2Shader.setFloat("pointLights[0].constant", pointLightConstant);
+        wall2Shader.setFloat("pointLights[0].linear", pointLightLinear);
+        wall2Shader.setFloat("pointLights[0].quadratic", pointLightQuadratic);
+        // point light 2
+        wall2Shader.setVec3("pointLights[1].position",
+                            pointLightPositions[1] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime() + 1), 0.0f));
+        wall2Shader.setVec3("pointLights[1].ambient", pointLightAmbient);
+        wall2Shader.setVec3("pointLights[1].diffuse", pointLightDiffuse);
+        wall2Shader.setVec3("pointLights[1].specular", pointLightSpecular);
+        wall2Shader.setFloat("pointLights[1].constant", pointLightConstant);
+        wall2Shader.setFloat("pointLights[1].linear", pointLightLinear);
+        wall2Shader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
 
         // view/projection transformations
         wall2Shader.setMat4("projection", projection);
@@ -479,6 +581,25 @@ int main() {
         stairsShader.setVec3("dirLight.diffuse", dirLightDiffuse);
         stairsShader.setVec3("dirLight.specular", dirLightSpecular);
 
+        // point light 1
+        stairsShader.setVec3("pointLights[0].position",
+                             pointLightPositions[0] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime()), 0.0f));
+        stairsShader.setVec3("pointLights[0].ambient", pointLightAmbient);
+        stairsShader.setVec3("pointLights[0].diffuse", pointLightDiffuse);
+        stairsShader.setVec3("pointLights[0].specular", pointLightSpecular);
+        stairsShader.setFloat("pointLights[0].constant", pointLightConstant);
+        stairsShader.setFloat("pointLights[0].linear", pointLightLinear);
+        stairsShader.setFloat("pointLights[0].quadratic", pointLightQuadratic);
+        // point light 2
+        stairsShader.setVec3("pointLights[1].position",
+                             pointLightPositions[1] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime() + 1), 0.0f));
+        stairsShader.setVec3("pointLights[1].ambient", pointLightAmbient);
+        stairsShader.setVec3("pointLights[1].diffuse", pointLightDiffuse);
+        stairsShader.setVec3("pointLights[1].specular", pointLightSpecular);
+        stairsShader.setFloat("pointLights[1].constant", pointLightConstant);
+        stairsShader.setFloat("pointLights[1].linear", pointLightLinear);
+        stairsShader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
+
         // view/projection transformations
         stairsShader.setMat4("projection", projection);
         stairsShader.setMat4("view", view);
@@ -502,6 +623,25 @@ int main() {
         }
 
         // =========================================== glass stairs drawn =========================================
+
+        // ============================================ draw light cubes ==========================================
+        lightCubeShader.use();
+        
+        lightCubeShader.setMat4("projection", projection);
+        lightCubeShader.setMat4("view", view);
+
+        glBindVertexArray(lightCubeVAO);
+        for (unsigned int i = 0; i < NUM_LIGHT_CUBES; i++)
+        {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, pointLightPositions[i] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime() + i), 0.0f));
+            model = glm::scale(model, glm::vec3(0.1f));
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        // ============================================ light cubes drawn =========================================
+
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
