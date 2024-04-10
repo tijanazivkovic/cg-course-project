@@ -266,7 +266,12 @@ int main() {
     // load models
     Model floorLampModel("resources/objects/FloorLamp/FloorLamp.obj");
     floorLampModel.SetShaderTextureNamePrefix("material.");
-
+    Model armchairModel("resources/objects/Armchair/Armchair.obj");
+    armchairModel.SetShaderTextureNamePrefix("material.");
+    Model coffeeTableModel("resources/objects/CoffeeTable/CoffeeTableNimbusGoldReplica.obj");
+    coffeeTableModel.SetShaderTextureNamePrefix("material.");
+    Model rugRoundPatternModel("resources/objects/RugRoundPattern/RugRoundPattern.obj");
+    rugRoundPatternModel.SetShaderTextureNamePrefix("material.");
 
     // shader configuration
     platform1Shader.use();
@@ -567,6 +572,35 @@ int main() {
         model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
         modelShader.setMat4("model", model);
         floorLampModel.Draw(modelShader);
+
+        // ------------------------------------------- armchairModel -------------------------------------------
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-3.3f,  0.575f,  -1.6f));
+        model = glm::rotate(model, glm::radians(-105.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+        modelShader.setMat4("model", model);
+        armchairModel.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-4.7f,  0.575f,  -0.95f));
+        model = glm::rotate(model, glm::radians(-30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+        modelShader.setMat4("model", model);
+        armchairModel.Draw(modelShader);
+
+        // ------------------------------------------- coffeeTableModel -------------------------------------------
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-4.2f,  0.575f,  -1.7f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        modelShader.setMat4("model", model);
+        coffeeTableModel.Draw(modelShader);
+
+        // ------------------------------------------- rugRoundPatternModel -------------------------------------------
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-3.65f,  0.58f,  -0.6f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        modelShader.setMat4("model", model);
+        rugRoundPatternModel.Draw(modelShader);
 
 
 

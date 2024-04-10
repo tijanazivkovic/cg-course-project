@@ -1,0 +1,14 @@
+# Blender 4.1.0 MTL File: 'CoffeeTableNimbusGoldReplica001_Blender_Cycles.blend'
+# www.blender.org
+
+newmtl CoffeeTableNimbusGoldReplica001_4K
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd CoffeeTableNimbusGoldReplica001_COL_1K_METALNESS.jpg
+map_Ks CoffeeTableNimbusGoldReplica001_ROUGHNESS_1K_METALNESS.jpg
+map_Pm CoffeeTableNimbusGoldReplica001_METALNESS_1K_METALNESS.png
+map_Bump -bm 1.000000 CoffeeTableNimbusGoldReplica001_NRM_1K_METALNESS.png
