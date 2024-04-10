@@ -203,6 +203,12 @@ int main() {
             glm::vec3( 0.0f, 0.5f, 1.3f)
     };
 
+    // spotlight positions
+    glm::vec3 spotLightPositions[] = {
+            glm::vec3( -3.0f,  2.0f,  -0.6f),
+            glm::vec3( -3.2f, 2.0f, -0.6f)
+    };
+
     unsigned int platformVBO, platformVAO;
     glGenVertexArrays(1, &platformVAO);
     glGenBuffers(1, &platformVBO);
@@ -291,6 +297,16 @@ int main() {
     float pointLightLinear = 0.09f;
     float pointLightQuadratic = 0.032f;
 
+    // spotlights settings
+    glm::vec3 spotLightDirection = glm::vec3(0.0f,  -1.0f,  0.0f);
+    glm::vec3 spotLightAmbient = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 spotLightDiffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+    glm::vec3 spotLightSpecular = glm::vec3(0.5f, 0.5f, 0.5f);
+    float spotLightConstant = 1.0f;
+    float spotLightLinear = 0.09f;
+    float spotLightQuadratic = 0.032f;
+    float cutOff = glm::cos(glm::radians(8.5f));
+    float outerCutOff = glm::cos(glm::radians(60.0f));
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -373,6 +389,30 @@ int main() {
         platform1Shader.setFloat("pointLights[1].linear", pointLightLinear);
         platform1Shader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
 
+        // spotlight 1
+        platform1Shader.setVec3("spotLights[0].position", spotLightPositions[0]);
+        platform1Shader.setVec3("spotLights[0].direction", spotLightDirection);
+        platform1Shader.setVec3("spotLights[0].ambient", spotLightAmbient);
+        platform1Shader.setVec3("spotLights[0].diffuse", spotLightDiffuse);
+        platform1Shader.setVec3("spotLights[0].specular", spotLightSpecular);
+        platform1Shader.setFloat("spotLights[0].constant", spotLightConstant);
+        platform1Shader.setFloat("spotLights[0].linear", spotLightLinear);
+        platform1Shader.setFloat("spotLights[0].quadratic", spotLightQuadratic);
+        platform1Shader.setFloat("spotLights[0].cutOff", cutOff);
+        platform1Shader.setFloat("spotLights[0].outerCutOff", outerCutOff);
+
+        // spotlight 2
+        platform1Shader.setVec3("spotLights[1].position", spotLightPositions[1]);
+        platform1Shader.setVec3("spotLights[1].direction", spotLightDirection);
+        platform1Shader.setVec3("spotLights[1].ambient", spotLightAmbient);
+        platform1Shader.setVec3("spotLights[1].diffuse", spotLightDiffuse);
+        platform1Shader.setVec3("spotLights[1].specular", spotLightSpecular);
+        platform1Shader.setFloat("spotLights[1].constant", spotLightConstant);
+        platform1Shader.setFloat("spotLights[1].linear", spotLightLinear);
+        platform1Shader.setFloat("spotLights[1].quadratic", spotLightQuadratic);
+        platform1Shader.setFloat("spotLights[1].cutOff", cutOff);
+        platform1Shader.setFloat("spotLights[1].outerCutOff", outerCutOff);
+
         // view/projection transformations
         platform1Shader.setMat4("projection", projection);
         platform1Shader.setMat4("view", view);
@@ -415,6 +455,30 @@ int main() {
         platform2Shader.setFloat("pointLights[1].constant", pointLightConstant);
         platform2Shader.setFloat("pointLights[1].linear", pointLightLinear);
         platform2Shader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
+
+        // spotlight 1
+        platform2Shader.setVec3("spotLights[0].position", spotLightPositions[0]);
+        platform2Shader.setVec3("spotLights[0].direction", spotLightDirection);
+        platform2Shader.setVec3("spotLights[0].ambient", spotLightAmbient);
+        platform2Shader.setVec3("spotLights[0].diffuse", spotLightDiffuse);
+        platform2Shader.setVec3("spotLights[0].specular", spotLightSpecular);
+        platform2Shader.setFloat("spotLights[0].constant", spotLightConstant);
+        platform2Shader.setFloat("spotLights[0].linear", spotLightLinear);
+        platform2Shader.setFloat("spotLights[0].quadratic", spotLightQuadratic);
+        platform2Shader.setFloat("spotLights[0].cutOff", cutOff);
+        platform2Shader.setFloat("spotLights[0].outerCutOff", outerCutOff);
+
+        // spotlight 2
+        platform2Shader.setVec3("spotLights[1].position", spotLightPositions[1]);
+        platform2Shader.setVec3("spotLights[1].direction", spotLightDirection);
+        platform2Shader.setVec3("spotLights[1].ambient", spotLightAmbient);
+        platform2Shader.setVec3("spotLights[1].diffuse", spotLightDiffuse);
+        platform2Shader.setVec3("spotLights[1].specular", spotLightSpecular);
+        platform2Shader.setFloat("spotLights[1].constant", spotLightConstant);
+        platform2Shader.setFloat("spotLights[1].linear", spotLightLinear);
+        platform2Shader.setFloat("spotLights[1].quadratic", spotLightQuadratic);
+        platform2Shader.setFloat("spotLights[1].cutOff", cutOff);
+        platform2Shader.setFloat("spotLights[1].outerCutOff", outerCutOff);
 
         // view/projection transformations
         platform2Shader.setMat4("projection", projection);
@@ -478,6 +542,30 @@ int main() {
         wall1Shader.setFloat("pointLights[1].linear", pointLightLinear);
         wall1Shader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
 
+        // spotlight 1
+        wall1Shader.setVec3("spotLights[0].position", spotLightPositions[0]);
+        wall1Shader.setVec3("spotLights[0].direction", spotLightDirection);
+        wall1Shader.setVec3("spotLights[0].ambient", spotLightAmbient);
+        wall1Shader.setVec3("spotLights[0].diffuse", spotLightDiffuse);
+        wall1Shader.setVec3("spotLights[0].specular", spotLightSpecular);
+        wall1Shader.setFloat("spotLights[0].constant", spotLightConstant);
+        wall1Shader.setFloat("spotLights[0].linear", spotLightLinear);
+        wall1Shader.setFloat("spotLights[0].quadratic", spotLightQuadratic);
+        wall1Shader.setFloat("spotLights[0].cutOff", cutOff);
+        wall1Shader.setFloat("spotLights[0].outerCutOff", outerCutOff);
+
+        // spotlight 2
+        wall1Shader.setVec3("spotLights[1].position", spotLightPositions[1]);
+        wall1Shader.setVec3("spotLights[1].direction", spotLightDirection);
+        wall1Shader.setVec3("spotLights[1].ambient", spotLightAmbient);
+        wall1Shader.setVec3("spotLights[1].diffuse", spotLightDiffuse);
+        wall1Shader.setVec3("spotLights[1].specular", spotLightSpecular);
+        wall1Shader.setFloat("spotLights[1].constant", spotLightConstant);
+        wall1Shader.setFloat("spotLights[1].linear", spotLightLinear);
+        wall1Shader.setFloat("spotLights[1].quadratic", spotLightQuadratic);
+        wall1Shader.setFloat("spotLights[1].cutOff", cutOff);
+        wall1Shader.setFloat("spotLights[1].outerCutOff", outerCutOff);
+
         // view/projection transformations
         wall1Shader.setMat4("projection", projection);
         wall1Shader.setMat4("view", view);
@@ -531,6 +619,30 @@ int main() {
         wall2Shader.setFloat("pointLights[1].constant", pointLightConstant);
         wall2Shader.setFloat("pointLights[1].linear", pointLightLinear);
         wall2Shader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
+
+        // spotlight 1
+        wall2Shader.setVec3("spotLights[0].position", spotLightPositions[0]);
+        wall2Shader.setVec3("spotLights[0].direction", spotLightDirection);
+        wall2Shader.setVec3("spotLights[0].ambient", spotLightAmbient);
+        wall2Shader.setVec3("spotLights[0].diffuse", spotLightDiffuse);
+        wall2Shader.setVec3("spotLights[0].specular", spotLightSpecular);
+        wall2Shader.setFloat("spotLights[0].constant", spotLightConstant);
+        wall2Shader.setFloat("spotLights[0].linear", spotLightLinear);
+        wall2Shader.setFloat("spotLights[0].quadratic", spotLightQuadratic);
+        wall2Shader.setFloat("spotLights[0].cutOff", cutOff);
+        wall2Shader.setFloat("spotLights[0].outerCutOff", outerCutOff);
+
+        // spotlight 2
+        wall2Shader.setVec3("spotLights[1].position", spotLightPositions[1]);
+        wall2Shader.setVec3("spotLights[1].direction", spotLightDirection);
+        wall2Shader.setVec3("spotLights[1].ambient", spotLightAmbient);
+        wall2Shader.setVec3("spotLights[1].diffuse", spotLightDiffuse);
+        wall2Shader.setVec3("spotLights[1].specular", spotLightSpecular);
+        wall2Shader.setFloat("spotLights[1].constant", spotLightConstant);
+        wall2Shader.setFloat("spotLights[1].linear", spotLightLinear);
+        wall2Shader.setFloat("spotLights[1].quadratic", spotLightQuadratic);
+        wall2Shader.setFloat("spotLights[1].cutOff", cutOff);
+        wall2Shader.setFloat("spotLights[1].outerCutOff", outerCutOff);
 
         // view/projection transformations
         wall2Shader.setMat4("projection", projection);
@@ -600,6 +712,30 @@ int main() {
         stairsShader.setFloat("pointLights[1].linear", pointLightLinear);
         stairsShader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
 
+        // spotlight 1
+        stairsShader.setVec3("spotLights[0].position", spotLightPositions[0]);
+        stairsShader.setVec3("spotLights[0].direction", spotLightDirection);
+        stairsShader.setVec3("spotLights[0].ambient", spotLightAmbient);
+        stairsShader.setVec3("spotLights[0].diffuse", spotLightDiffuse);
+        stairsShader.setVec3("spotLights[0].specular", spotLightSpecular);
+        stairsShader.setFloat("spotLights[0].constant", spotLightConstant);
+        stairsShader.setFloat("spotLights[0].linear", spotLightLinear);
+        stairsShader.setFloat("spotLights[0].quadratic", spotLightQuadratic);
+        stairsShader.setFloat("spotLights[0].cutOff", cutOff);
+        stairsShader.setFloat("spotLights[0].outerCutOff", outerCutOff);
+
+        // spotlight 2
+        stairsShader.setVec3("spotLights[1].position", spotLightPositions[1]);
+        stairsShader.setVec3("spotLights[1].direction", spotLightDirection);
+        stairsShader.setVec3("spotLights[1].ambient", spotLightAmbient);
+        stairsShader.setVec3("spotLights[1].diffuse", spotLightDiffuse);
+        stairsShader.setVec3("spotLights[1].specular", spotLightSpecular);
+        stairsShader.setFloat("spotLights[1].constant", spotLightConstant);
+        stairsShader.setFloat("spotLights[1].linear", spotLightLinear);
+        stairsShader.setFloat("spotLights[1].quadratic", spotLightQuadratic);
+        stairsShader.setFloat("spotLights[1].cutOff", cutOff);
+        stairsShader.setFloat("spotLights[1].outerCutOff", outerCutOff);
+
         // view/projection transformations
         stairsShader.setMat4("projection", projection);
         stairsShader.setMat4("view", view);
@@ -626,7 +762,7 @@ int main() {
 
         // ============================================ draw light cubes ==========================================
         lightCubeShader.use();
-        
+
         lightCubeShader.setMat4("projection", projection);
         lightCubeShader.setMat4("view", view);
 
