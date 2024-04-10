@@ -1,0 +1,48 @@
+# Blender 4.1.0 MTL File: 'TANDEM_FLOOR_LAMP.blend'
+# www.blender.org
+
+newmtl MarbleBase
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Marble002_2K_Color.png
+map_Ks Marble002_2K_Roughness.png
+map_Bump -bm 1.000000 Marble002_2K_NormalDX.png
+
+newmtl MetalMechanism
+Ns 714.793457
+Ka 1.000000 1.000000 1.000000
+Kd 0.246719 0.246719 0.246719
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+
+newmtl lampHeadIn
+Ns 87.293396
+Ka 0.550000 0.550000 0.550000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd MetalCladdingFrame_diffuse2.jpg
+map_Ks MetalCladdingFrame_spec.jpg
+map_Bump -bm 1.000000 MetalCladdingFrame_NRM.png
+
+newmtl powder-coated
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Plastic006_2K_Color.png
+map_Ks Plastic006_2K_Roughness.png
+map_Bump -bm 1.000000 Plastic006_2K_NormalDX.png

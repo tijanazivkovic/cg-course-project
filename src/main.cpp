@@ -67,7 +67,9 @@ int main() {
         return -1;
     }
 
-    // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+    // Leaving this comment here intentionally.
+    // tell stb_image.h to flip loaded texture's on the y-axis (before loading model)
+    // no - models in this project have textures with different texture origin
 //    stbi_set_flip_vertically_on_load(true);
 
     // configure global opengl state
@@ -80,6 +82,7 @@ int main() {
     Shader wall2Shader("resources/shaders/wall2.vs", "resources/shaders/wall2.fs" );
     Shader stairsShader("resources/shaders/stairs.vs", "resources/shaders/stairs.fs");
     Shader lightCubeShader("resources/shaders/lightCube.vs", "resources/shaders/lightCube.fs");
+    Shader modelShader("resources/shaders/model.vs", "resources/shaders/model.fs");
 
     // basic cube vertices - to be used for drawing platforms
     float platformVertices[] = {
@@ -205,8 +208,8 @@ int main() {
 
     // spotlight positions
     glm::vec3 spotLightPositions[] = {
-            glm::vec3( -3.0f,  2.0f,  -0.6f),
-            glm::vec3( -3.2f, 2.0f, -0.6f)
+            glm::vec3( -4.95f,  2.375f,  -1.6f),
+            glm::vec3( -4.8f,  2.375f,  -1.71f)
     };
 
     unsigned int platformVBO, platformVAO;
@@ -260,6 +263,10 @@ int main() {
     unsigned int diffuseMapGlass = loadTexture("resources/textures/glass1_diffuse.png");
     unsigned int specularMapGlass = loadTexture("resources/textures/glass1_specular.png");
 
+    // load models
+    Model floorLampModel("resources/objects/FloorLamp/FloorLamp.obj");
+    floorLampModel.SetShaderTextureNamePrefix("material.");
+
 
     // shader configuration
     platform1Shader.use();
@@ -300,13 +307,13 @@ int main() {
     // spotlights settings
     glm::vec3 spotLightDirection = glm::vec3(0.0f,  -1.0f,  0.0f);
     glm::vec3 spotLightAmbient = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 spotLightDiffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+    glm::vec3 spotLightDiffuse = glm::vec3(0.6f, 0.6f, 0.6f);
     glm::vec3 spotLightSpecular = glm::vec3(0.5f, 0.5f, 0.5f);
     float spotLightConstant = 1.0f;
     float spotLightLinear = 0.09f;
     float spotLightQuadratic = 0.032f;
-    float cutOff = glm::cos(glm::radians(8.5f));
-    float outerCutOff = glm::cos(glm::radians(60.0f));
+    float cutOff = glm::cos(glm::radians(9.5f));
+    float outerCutOff = glm::cos(glm::radians(55.0f));
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -493,6 +500,96 @@ int main() {
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         // =========================================== platforms drawn ===========================================
+
+        // ============================================ draw models ==============================================
+        modelShader.use();
+
+        modelShader.setVec3("viewPos", camera.Position);
+        modelShader.setFloat("material.shininess", 32.0f);
+
+        // directional light
+        modelShader.setVec3("dirLight.direction", direction);
+        modelShader.setVec3("dirLight.ambient", dirLightAmbient);
+        modelShader.setVec3("dirLight.diffuse", dirLightDiffuse);
+        modelShader.setVec3("dirLight.specular", dirLightSpecular);
+
+        // point light 1
+        modelShader.setVec3("pointLights[0].position",
+                                pointLightPositions[0] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime()), 0.0f));
+        modelShader.setVec3("pointLights[0].ambient", pointLightAmbient);
+        modelShader.setVec3("pointLights[0].diffuse", pointLightDiffuse);
+        modelShader.setVec3("pointLights[0].specular", pointLightSpecular);
+        modelShader.setFloat("pointLights[0].constant", pointLightConstant);
+        modelShader.setFloat("pointLights[0].linear", pointLightLinear);
+        modelShader.setFloat("pointLights[0].quadratic", pointLightQuadratic);
+        // point light 2
+        modelShader.setVec3("pointLights[1].position",
+                                pointLightPositions[1] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime() + 1), 0.0f));
+        modelShader.setVec3("pointLights[1].ambient", pointLightAmbient);
+        modelShader.setVec3("pointLights[1].diffuse", pointLightDiffuse);
+        modelShader.setVec3("pointLights[1].specular", pointLightSpecular);
+        modelShader.setFloat("pointLights[1].constant", pointLightConstant);
+        modelShader.setFloat("pointLights[1].linear", pointLightLinear);
+        modelShader.setFloat("pointLights[1].quadratic", pointLightQuadratic);
+
+        // spotlight 1
+        modelShader.setVec3("spotLights[0].position", spotLightPositions[0]);
+        modelShader.setVec3("spotLights[0].direction", spotLightDirection);
+        modelShader.setVec3("spotLights[0].ambient", spotLightAmbient);
+        modelShader.setVec3("spotLights[0].diffuse", spotLightDiffuse);
+        modelShader.setVec3("spotLights[0].specular", spotLightSpecular);
+        modelShader.setFloat("spotLights[0].constant", spotLightConstant);
+        modelShader.setFloat("spotLights[0].linear", spotLightLinear);
+        modelShader.setFloat("spotLights[0].quadratic", spotLightQuadratic);
+        modelShader.setFloat("spotLights[0].cutOff", cutOff);
+        modelShader.setFloat("spotLights[0].outerCutOff", outerCutOff);
+
+        // spotlight 2
+        modelShader.setVec3("spotLights[1].position", spotLightPositions[1]);
+        modelShader.setVec3("spotLights[1].direction", spotLightDirection);
+        modelShader.setVec3("spotLights[1].ambient", spotLightAmbient);
+        modelShader.setVec3("spotLights[1].diffuse", spotLightDiffuse);
+        modelShader.setVec3("spotLights[1].specular", spotLightSpecular);
+        modelShader.setFloat("spotLights[1].constant", spotLightConstant);
+        modelShader.setFloat("spotLights[1].linear", spotLightLinear);
+        modelShader.setFloat("spotLights[1].quadratic", spotLightQuadratic);
+        modelShader.setFloat("spotLights[1].cutOff", cutOff);
+        modelShader.setFloat("spotLights[1].outerCutOff", outerCutOff);
+
+        // view/projection transformations
+        modelShader.setMat4("projection", projection);
+        modelShader.setMat4("view", view);
+
+        // ------------------------------------------- floorLampModel -------------------------------------------
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-5.0f,  0.575f,  -1.8f));
+        model = glm::rotate(model, glm::radians(40.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+        modelShader.setMat4("model", model);
+        floorLampModel.Draw(modelShader);
+
+
+
+
+        // ============================================ models drawn ==============================================
+
+        // ============================================ draw light cubes ==========================================
+        lightCubeShader.use();
+
+        lightCubeShader.setMat4("projection", projection);
+        lightCubeShader.setMat4("view", view);
+
+        glBindVertexArray(lightCubeVAO);
+        for (unsigned int i = 0; i < NUM_LIGHT_CUBES; i++)
+        {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, pointLightPositions[i] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime() + i), 0.0f));
+            model = glm::scale(model, glm::vec3(0.1f));
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        // ============================================ light cubes drawn =========================================
 
         // =========================================== draw walls ================================================
 
@@ -759,24 +856,6 @@ int main() {
         }
 
         // =========================================== glass stairs drawn =========================================
-
-        // ============================================ draw light cubes ==========================================
-        lightCubeShader.use();
-
-        lightCubeShader.setMat4("projection", projection);
-        lightCubeShader.setMat4("view", view);
-
-        glBindVertexArray(lightCubeVAO);
-        for (unsigned int i = 0; i < NUM_LIGHT_CUBES; i++)
-        {
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, pointLightPositions[i] + glm::vec3(0.0f, 0.2 * sin(2 * glfwGetTime() + i), 0.0f));
-            model = glm::scale(model, glm::vec3(0.1f));
-            lightCubeShader.setMat4("model", model);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
-
-        // ============================================ light cubes drawn =========================================
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
